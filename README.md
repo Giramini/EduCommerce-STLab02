@@ -61,14 +61,16 @@ python verify_fix.py
 Google Colab (mỗi ô là một cell):
 
 ```
-!git clone https://github.com/<tai-khoan>/<ten-repo>.git
-%cd <ten-repo>
+!git clone https://github.com/Giramini/EduCommerce-STLab02.git
+%cd EduCommerce-STLab02
 !pip -q install -r requirements.txt
 !python test_runner.py
 ```
 
 Dashboard Gradio (tùy chọn): `!pip -q install gradio` rồi `!python dashboard_gradio.py` và mở liên kết gradio.live.
 Không đưa dữ liệu khách hàng thật lên liên kết chia sẻ tạm
+
+Link colab đã chạy: https://colab.research.google.com/drive/1xn8oljsDw_QIekA7f7iAu_KJcSkij2O1#scrollTo=e58kJlKZMl13
 
 ## 4. Định dạng test_cases.csv
 
