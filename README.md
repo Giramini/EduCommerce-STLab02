@@ -49,6 +49,15 @@ python experiments.py
 python verify_fix.py
 ```
 
+Lưu ý trên Windows (PowerShell): `experiments.py` và `verify_fix.py` gọi `test_runner.py` như một tiến trình con,
+nên cần bật UTF-8 trước, nếu không sẽ lỗi `UnicodeEncodeError` khi in tiếng Việt:
+
+```powershell
+$env:PYTHONUTF8 = "1"
+python experiments.py
+python verify_fix.py
+```
+
 Google Colab (mỗi ô là một cell):
 
 ```
