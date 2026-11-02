@@ -1,0 +1,52 @@
+﻿id,kind,title,requirement_id
+REQ-02,REQ,Cart: số lượng là số nguyên dương; cộng dồn cùng SKU,REQ-02
+COND-CRT-01,COND,"Số lượng phải là số nguyên dương (hợp lệ, 0, âm, không nguyên, kiểu lạ)",REQ-02
+COND-CRT-02,COND,Cùng SKU được cộng dồn vào một dòng,REQ-02
+COND-CRT-03,COND,Thêm lỗi không làm thay đổi giỏ hàng,REQ-02
+TS-CRT-01,TS,Thêm số lượng hợp lệ vào giỏ,REQ-02
+TS-CRT-02,TS,"Từ chối số lượng không hợp lệ (0, âm, không nguyên)",REQ-02
+TS-CRT-03,TS,Thêm cùng SKU hai lần,REQ-02
+TS-CRT-04,TS,Thêm lỗi sau khi giỏ đã có hàng,REQ-02
+TS-CRT-05,TS,Cộng dồn vượt tồn kho rồi checkout,REQ-02
+TS-CRT-06,TS,Giá trị kiểu bool làm số lượng,REQ-02
+REQ-07,REQ,Promotion: mã sai/đã dùng bị từ chối; chỉ đánh dấu used sau order thành công,REQ-07
+COND-VCH-01,COND,Mã voucher không tồn tại,REQ-07
+COND-VCH-02,COND,Mã đã được khách dùng,REQ-07
+COND-VCH-03,COND,Thời điểm đánh dấu used: chỉ sau khi order thành công,REQ-07
+TS-VCH-01,TS,Từ chối mã không tồn tại,REQ-07
+TS-VCH-02,TS,Từ chối mã đã dùng,REQ-07
+TS-VCH-03,TS,Đánh dấu used sau đơn thành công,REQ-07
+TS-VCH-04,TS,Không đánh dấu used khi thanh toán thất bại,REQ-07
+TS-VCH-05,TS,Dùng lại mã ngay sau đơn thành công,REQ-07
+REQ-09,REQ,"Shipping: nội thành miễn phí khi subtotal >= 500k, nếu không 30k; ngoại thành 50k",REQ-09
+COND-SHP-01,COND,Ngưỡng miễn phí nội thành (dưới / đúng / trên 500.000),REQ-09
+COND-SHP-02,COND,Ngoại thành phí cố định 50.000,REQ-09
+COND-SHP-03,COND,Ngưỡng xét trên subtotal trước giảm giá,REQ-09
+TS-SHP-01,TS,Nội thành ngay dưới ngưỡng,REQ-09
+TS-SHP-02,TS,Nội thành đúng và trên ngưỡng,REQ-09
+TS-SHP-03,TS,Ngoại thành phí cố định,REQ-09
+TS-SHP-04,TS,Checkout có voucher: ship xét trước giảm,REQ-09
+REQ-10,REQ,Payment: COD = PENDING_COD; ONLINE chỉ PAID khi approved; declined không tạo order,REQ-10
+COND-PAY-01,COND,Luồng COD,REQ-10
+COND-PAY-02,COND,ONLINE được approve,REQ-10
+COND-PAY-03,COND,ONLINE bị declined,REQ-10
+COND-PAY-04,COND,Cờ approved không ảnh hưởng COD,REQ-10
+TS-PAY-01,TS,Đặt hàng COD,REQ-10
+TS-PAY-02,TS,Đặt hàng ONLINE approved,REQ-10
+TS-PAY-03,TS,Đặt hàng ONLINE declined,REQ-10
+TS-PAY-04,TS,COD với approved=False,REQ-10
+REQ-15,REQ,"Inventory atomicity: một SKU thiếu thì reject cả đơn, không trừ SKU khác",REQ-15
+COND-ATM-01,COND,Một SKU thiếu trong đơn nhiều SKU,REQ-15
+COND-ATM-02,COND,Biên tồn kho (bằng / lớn hơn 1),REQ-15
+COND-ATM-03,COND,Mọi dòng đủ hàng thì trừ đúng từng SKU,REQ-15
+TS-ATM-01,TS,Hai SKU: một đủ một thiếu,REQ-15
+TS-ATM-02,TS,Vị trí SKU thiếu (đầu / cuối danh sách),REQ-15
+TS-ATM-03,TS,Biên tồn kho đúng bằng và vượt 1,REQ-15
+TS-ATM-04,TS,Đơn nhiều SKU đều đủ hàng,REQ-15
+REQ-16,REQ,Payment safety: phương thức ngoài COD/ONLINE phải bị từ chối,REQ-16
+COND-PSF-01,COND,"Tên phương thức không được hỗ trợ (WALLET, CARD)",REQ-16
+COND-PSF-02,COND,Phương thức rỗng hoặc null,REQ-16
+COND-PSF-03,COND,"Từ chối phải không có tác dụng phụ (order, charge, kho, voucher)",REQ-16
+TS-PSF-01,TS,Từ chối tên phương thức lạ,REQ-16
+TS-PSF-02,TS,Từ chối phương thức rỗng/null,REQ-16
+TS-PSF-03,TS,Từ chối khi đơn có voucher và nhiều SKU,REQ-16

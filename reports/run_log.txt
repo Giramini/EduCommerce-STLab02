@@ -1,0 +1,47 @@
+Run finished at 2026-10-29T08:56:25+00:00 UTC | cases file: test_cases.csv
+Data completeness: COMPLETE (34 executed of 34 CSV records)
+Executed 34 | PASS 28 | FAIL 5 | BLOCKED 1 | pass rate 82.4%
+
+test_case_id requirement_id execution_status  execution_time_ms
+  TC-CRT-001         REQ-02             PASS              0.092
+  TC-CRT-002         REQ-02             PASS              0.081
+  TC-CRT-003         REQ-02             PASS              0.064
+  TC-CRT-004         REQ-02             PASS              0.083
+  TC-CRT-005         REQ-02             PASS              0.045
+  TC-CRT-006         REQ-02             PASS              0.063
+  TC-CRT-007         REQ-02             PASS              0.138
+  TC-CRT-008         REQ-02          BLOCKED              0.024
+  TC-VCH-001         REQ-07             PASS              0.080
+  TC-VCH-002         REQ-07             PASS              0.074
+  TC-VCH-003         REQ-07             PASS              0.062
+  TC-VCH-004         REQ-07             PASS              0.092
+  TC-VCH-005         REQ-07             PASS              0.050
+  TC-SHP-001         REQ-09             PASS              0.030
+  TC-SHP-002         REQ-09             PASS              0.026
+  TC-SHP-003         REQ-09             PASS              0.029
+  TC-SHP-004         REQ-09             PASS              0.026
+  TC-SHP-005         REQ-09             PASS              0.023
+  TC-SHP-006         REQ-09             PASS              0.052
+  TC-PAY-001         REQ-10             PASS              0.037
+  TC-PAY-002         REQ-10             PASS              0.040
+  TC-PAY-003         REQ-10             PASS              0.034
+  TC-PAY-004         REQ-10             PASS              0.034
+  TC-ATM-001         REQ-15             PASS              0.038
+  TC-ATM-002         REQ-15             PASS              0.050
+  TC-ATM-003         REQ-15             PASS              0.038
+  TC-ATM-004         REQ-15             PASS              0.043
+  TC-ATM-005         REQ-15             PASS              0.035
+  TC-ATM-006         REQ-15             PASS              0.041
+  TC-PSF-001         REQ-16             FAIL              0.071
+  TC-PSF-002         REQ-16             FAIL              0.034
+  TC-PSF-003         REQ-16             FAIL              0.034
+  TC-PSF-004         REQ-16             FAIL              0.033
+  TC-PSF-005         REQ-16             FAIL              0.047
+
+Non-PASS cases (expected vs actual):
+  TC-CRT-008 [BLOCKED] BLOCKED_BY_DESIGN: Requirement không nói rõ True (kiểu bool) có phải số nguyên dương hay không; chưa có oracle, chờ BA/PO làm rõ
+  TC-PSF-001 [FAIL] stock: expected {'A': 20, 'B': 15, 'C': 12} but got {'A': 17, 'B': 15, 'C': 12}
+  TC-PSF-002 [FAIL] stock: expected {'A': 20, 'B': 15, 'C': 12} but got {'A': 17, 'B': 15, 'C': 12}
+  TC-PSF-003 [FAIL] stock: expected {'A': 20, 'B': 15, 'C': 12} but got {'A': 17, 'B': 15, 'C': 12}
+  TC-PSF-004 [FAIL] stock: expected {'A': 20, 'B': 15, 'C': 12} but got {'A': 17, 'B': 15, 'C': 12}
+  TC-PSF-005 [FAIL] stock: expected {'A': 20, 'B': 15, 'C': 12} but got {'A': 18, 'B': 14, 'C': 12}

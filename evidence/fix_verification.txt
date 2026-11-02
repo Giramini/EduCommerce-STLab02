@@ -1,0 +1,5 @@
+Run finished at 2026-10-29T08:56:28+00:00 UTC | cases file: test_cases.csv
+Data completeness: COMPLETE (34 executed of 34 CSV records)
+Executed 34 | PASS 33 | FAIL 0 | BLOCKED 1 | pass rate 97.1%
+REQ-16 after fix: {'TC-PSF-001': 'PASS', 'TC-PSF-002': 'PASS', 'TC-PSF-003': 'PASS', 'TC-PSF-004': 'PASS', 'TC-PSF-005': 'PASS'}
+Cases that were PASS before and are not PASS after the fix (regression): []

@@ -1,0 +1,76 @@
+
+==============================================================================
+EXP-0  Fidelity check: this app behaves like the reference in the Instruction
+==============================================================================
+Subtotal: 600000 | stock before: {'A': 20, 'B': 15, 'C': 12}
+Discount: 60000 | Shipping: 0 | Total: 540000 | Status: PENDING_COD
+Stock after: {'A': 17, 'B': 15, 'C': 12}
+Instruction section 2.7 expects: 600000 / 60000 / 0 / 540000 / PENDING_COD / A=17
+Instruction's 12 sample cases re-expressed in this runner: {'PASS': 7, 'FAIL': 5} | FAIL ids: ['TC-PRO-002', 'TC-INV-003', 'TC-INV-004', 'TC-IDM-001', 'TC-IDM-002']
+Instruction section 4.3 reports 7 PASS and 5 FAIL (PRO-002, INV-003, INV-004, IDM-001, IDM-002)
+
+==============================================================================
+EXP-1  Problem 3.4: when is the price fixed? (price changes between add-to-cart and checkout)
+==============================================================================
+CartLine fields: ['sku', 'quantity']
+Subtotal right after add-to-cart: 300000
+Catalog price of B changed to 350000 before checkout
+Order subtotal-based result -> shipping: 30000 | total: 380000
+Observation: no price is stored in CartLine, so the price is resolved at checkout time.
+
+==============================================================================
+EXP-2  Problem 3.6: shared state between data-driven tests
+==============================================================================
+Case X ran first on the SHARED fixture. Stock A is now 17
+Case Y expects stock A = 20 - 3 = 17, observed 14 -> FAIL (caused by shared state, not by a product bug)
+Case Y on a FRESH fixture observes stock A = 17 -> PASS
+After fixture('499999') changed B to 299999, a new fixture('500k') sees B = 300000
+Proof of isolation: 3 random execution orders give the same status for all 34 cases: True
+
+==============================================================================
+EXP-3  Problem 3.7: 20 CSV rows, 3 rows cannot be parsed, '17 PASS' is not '100%'
+==============================================================================
+Naive runner (skips unparsable rows): executed 17 of 20, PASS 17, pass rate 100%  <- misleading
+This runner: executed 20 of 20, {'PASS': 17, 'BLOCKED': 3}, pass rate 85%, completeness COMPLETE because BLOCKED rows are kept
+   TC-CRT-001 -> INVALID_JSON in input_json: Expecting ',' delimiter at position 16
+   TC-CRT-002 -> INVALID_JSON in input_json: Expecting ',' delimiter at position 16
+   TC-CRT-003 -> INVALID_JSON in input_json: Expecting ',' delimiter at position 17
+
+==============================================================================
+EXP-4  Problem 3.8: free-shipping threshold changes from 500k to 700k (change impact)
+==============================================================================
+Cases whose status changes if only the shipping constant is edited: 4
+  TC-SHP-002 PASS -> FAIL | shipping: expected 0 but got 30000
+  TC-SHP-003 PASS -> FAIL | shipping: expected 0 but got 30000
+  TC-SHP-006 PASS -> FAIL | shipping: expected 0 but got 30000; total: expected 468000 but got 498000
+  TC-PAY-002 PASS -> FAIL | charge_amount: expected 600000 but got 630000; total: expected 600000 but got 630000
+Cases untouched by the change still pass: 30 of 34
+
+==============================================================================
+EXP-5  Code interview B: false positive when only the return value is checked
+==============================================================================
+REQ-16 cases, naive check (only 'error == INVALID_PAYMENT_METHOD') vs full check (error + orders + charges + stock):
+  TC-PSF-001: naive=PASS | full=FAIL
+  TC-PSF-002: naive=PASS | full=FAIL
+  TC-PSF-003: naive=PASS | full=FAIL
+  TC-PSF-004: naive=PASS | full=FAIL
+  TC-PSF-005: naive=PASS | full=FAIL
+TC-IDM-001 style retry: order_id is not None -> True (naive PASS) but full check = FAIL | stock: expected {'A': 17, 'B': 15, 'C': 12} but got {'A': 14, 'B': 15, 'C': 12}
+
+==============================================================================
+EXP-6  Code interview A: expected exception vs unexpected exception
+==============================================================================
+  PROBE-a (expected exception raised): PASS | 
+  PROBE-b (expected exception NOT raised): FAIL | error: expected INVALID_QUANTITY but got None
+  PROBE-c (unexpected exception raised): FAIL | error: expected None but got INVALID_QUANTITY
+  PROBE-d (different exception than expected): FAIL | error: expected INVALID_QUANTITY but got PRODUCT_UNAVAILABLE
+  PROBE-e (bad test data): BLOCKED | INVALID_TEST_DATA subtotal='abc': InvalidOperation
+  PROBE-f (bad fixture name): BLOCKED | SETUP_FAILED: ValueError: UNKNOWN_FIXTURE
+
+==============================================================================
+EXP-7  Problems 3.2 and 3.3: a failed call followed by a retry
+==============================================================================
+3.2 call 1 (ONLINE declined, SAVE10): PAYMENT_DECLINED | used_codes: [] | stock A: 17
+3.2 call 2 (COD, SAVE10): PENDING_COD | used_codes: ['SAVE10'] | stock A: 14 | stock A expected after exactly one order: 17
+3.3 call 1 (WALLET): INVALID_PAYMENT_METHOD | orders: 0 | charges: 0 | by_key: [] | stock A: 17
+3.3 call 2 (COD, same key K-W): ORD-0001 PENDING_COD | stock A: 14 | stock A expected after exactly one order: 17
